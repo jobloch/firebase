@@ -27,3 +27,25 @@ function writeUserData(m) {
     message: m
   });
 }
+var colors = true;
+firebase.database().ref('/').on('value', function(snapshot) {
+  //Get the value from the database snapshot
+  var messages = snapshot.val().messages;
+  //Get the location from html
+  var output = document.getElementById("output");
+  //Clear the html so we don't duplicate everything
+  output.innerHTML = "";
+  //Loop through the value and add each one
+  for(var i in messages) {
+    var p = document.createElement("p");
+    p.innerHTML = messages[i].message+" ";
+    if(colors){
+      p.style.color="blue";
+      colors=false;
+    }else{
+      p.style.color="red";
+      colors=true;
+    }
+    output.append(p);
+  }
+});
